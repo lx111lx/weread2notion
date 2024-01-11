@@ -112,17 +112,17 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
     time.sleep(0.3)
     parent = {"database_id": database_id, "type": "database_id"}
     properties = {
-        "BookName":get_title(bookName),
-        "BookId": get_rich_text(bookId),
-        "ISBN": get_rich_text(isbn),
-        "URL": get_url(f"https://weread.qq.com/web/reader/{calculate_book_str_id(bookId)}"),
+        "Books Name":get_title(bookName),
+        "Books ID": get_rich_text(bookId),
+        "ISBN NO.": get_rich_text(isbn),
+        "Resource": get_url(f"https://weread.qq.com/web/reader/{calculate_book_str_id(bookId)}"),
         "Author": get_rich_text(author),
-        "Sort": get_number(sort),
+        "Sort NO.": get_number(sort),
         "Rating": get_number(rating),
         "Cover": get_file(cover),
     }
     if categories != None:
-        properties["Categories"] =get_multi_select(categories)
+        properties["Tags"] =get_multi_select(categories)
     read_info = get_read_info(bookId=bookId)
     if read_info != None:
         markedStatus = read_info.get("markedStatus", 0)
@@ -131,15 +131,15 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
         format_time = ""
         hour = readingTime // 3600
         if hour > 0:
-            format_time += f"{hour}时"
+            format_time += f"{hour}:"
         minutes = readingTime % 3600 // 60
         if minutes > 0:
-            format_time += f"{minutes}分"
-        properties["Status"] = get_select("读完" if markedStatus == 4 else "在读")
-        properties["ReadingTime"] = get_rich_text(format_time)
-        properties["Progress"] = get_number(readingProgress)
+            format_time += f"{minutes}"
+        properties["Status"] = get_select("Read" if markedStatus == 4 else "Reading")
+        properties["ReadTime"] = get_rich_text(format_time)
+        """properties["Progress"] = get_number(readingProgress)"""
         if "finishedDate" in read_info:
-            properties["Date"] = get_date(datetime.utcfromtimestamp(
+            properties["Complete"] = get_date(datetime.utcfromtimestamp(
                         read_info.get("finishedDate")
                     ).strftime("%Y-%m-%d %H:%M:%S"))
 
