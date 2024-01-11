@@ -131,10 +131,10 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
         format_time = ""
         hour = readingTime // 3600
         if hour > 0:
-            format_time += f"{hour}:"
+            format_time += f"{hour}h"
         minutes = readingTime % 3600 // 60
         if minutes > 0:
-            format_time += f"{minutes}"
+            format_time += f"{minutes}min"
         properties["Status"] = get_select("Read" if markedStatus == 4 else "Reading")
         properties["ReadTime"] = get_rich_text(format_time)
         """properties["Progress"] = get_number(readingProgress)"""
