@@ -85,7 +85,7 @@ def get_review_list(bookId):
 def check(bookId):
     """检查是否已经插入过 如果已经插入了就删除"""
     time.sleep(0.3)
-    filter = {"property": "BookId", "rich_text": {"equals": bookId}}
+    filter = {"property": "Books ID", "rich_text": {"equals": bookId}}
     response = client.databases.query(database_id=database_id, filter=filter)
     for result in response["results"]:
         time.sleep(0.3)
@@ -137,7 +137,7 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
             format_time += f"{minutes}min"
         properties["Status"] = get_select("Read" if markedStatus == 4 else "Reading")
         properties["ReadTime"] = get_rich_text(format_time)
-        """properties["Progress"] = get_number(readingProgress)"""
+        properties["Progress"] = get_number(readingProgress)
         if "finishedDate" in read_info:
             properties["Complete"] = get_date(datetime.utcfromtimestamp(
                         read_info.get("finishedDate")
