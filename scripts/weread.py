@@ -184,10 +184,10 @@ def get_notebooklist():
 
 def get_sort():
     """获取database中的最新时间"""
-    filter = {"property": "Sort", "number": {"is_not_empty": True}}
+    filter = {"property": "Sort NO.", "number": {"is_not_empty": True}}
     sorts = [
         {
-            "property": "Sort",
+            "property": "Sort NO.",
             "direction": "descending",
         }
     ]
@@ -195,7 +195,7 @@ def get_sort():
         database_id=database_id, filter=filter, sorts=sorts, page_size=1
     )
     if len(response.get("results")) == 1:
-        return response.get("results")[0].get("properties").get("Sort").get("number")
+        return response.get("results")[0].get("properties").get("Sort NO.").get("number")
     return 0
 
 
