@@ -20,6 +20,7 @@ from utils import (
     get_file,
     get_heading,
     get_icon,
+    get_select,#添加定义的author select进入当前库
     get_multi_select,
     get_number,
     get_quote,
@@ -135,7 +136,7 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
         "ISBN": get_rich_text(isbn),
         "Resource": get_url(f"https://weread.qq.com/web/reader/{calculate_book_str_id(bookId)}"),
         #"Author": get_rich_text(author),
-        "Author": get_multi_select(flat(author)),
+        "Author": get_select(author),
         "Sort": get_number(sort),
         #这行Pro里没有，"Rating": get_number(rating),注释掉
         "Cover": get_file(cover),
