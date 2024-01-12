@@ -71,8 +71,8 @@ def get_date(start,end=None):
         }
     }
 
-def get_icon(url):
-    return {"type": "external", "external": {"url": url}}
+#def get_icon(url):
+    #return {"type": "external", "external": {"url": url}}
 
 
 def get_select(name):
@@ -94,33 +94,35 @@ def get_quote(content):
                     "text": {"content": content[:MAX_LENGTH]},#pro复制过来的
                 }
             ],
-            "color": "default",
+            "color": style("default","pink_background")
         },
     }
 
 
 def get_callout(content, style, colorStyle, reviewId):
     # 根据不同的划线样式设置不同的emoji 直线type=0 背景颜色是1 波浪线是2
-    emoji = "📌"
+    #emoji = "📌"
+    color = "brown_background"
     if style == 0:
-        emoji = "📍"
+    #    emoji = "📍"
+    color = "pink_background"   
     elif style == 1:
-        emoji = "🟨"
+    #    color = "green_background"
     # 如果reviewId不是空说明是笔记
     if reviewId != None:
         emoji = "📝"
     color = "default"
     # 根据划线颜色设置文字的颜色
     if colorStyle == 1:
-        color = style("red","red_background")
+        color = "default"
     elif colorStyle == 2:
-        color = style("purple","purple_background")
+        color = "default"
     elif colorStyle == 3:
-        color = style("blue","blue_background")
+        color = "default"
     elif colorStyle == 4:
-        color = style("green","green_background")
+        color = "default"
     elif colorStyle == 5:
-        color = style("yellow","yellow_background")
+        color = ""default"
     return {
         "type": "callout",
         "callout": {
