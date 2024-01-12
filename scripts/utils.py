@@ -1,3 +1,10 @@
+"""原版没有这一段，从pro复制过来的"""
+import calendar
+from datetime import datetime
+from datetime import timedelta
+MAX_LENGTH = 1024  #NOTION 2000个字符限制https://developers.notion.com/reference/request-limits
+
+
 def get_heading(level, content):
     if level == 1:
         heading = "heading_1"
@@ -12,7 +19,7 @@ def get_heading(level, content):
                 {
                     "type": "text",
                     "text": {
-                        "content": content,
+                        "content": content[:MAX_LENGTH],
                     },
                 }
             ],
@@ -28,11 +35,11 @@ def get_table_of_contents():
 
 
 def get_title(content):
-    return {"title": [{"type": "text", "text": {"content": content}}]}
+    return {"title": [{"type": "text", "text": {"content": content[:MAX_LENGTH]}}]}
 
 
 def get_rich_text(content):
-    return {"rich_text": [{"type": "text", "text": {"content": content}}]}
+    return {"rich_text": [{"type": "text", "text": {"content": content[:MAX_LENGTH]}}]}
 
 
 def get_url(url):
@@ -46,15 +53,23 @@ def get_file(url):
 def get_multi_select(names):
     return {"multi_select": [{"name": name} for name in names]}
 
-
+"""原版get_date：
 def get_date(start):
     return {
         "date": {
             "start": start,
             "time_zone": "Asia/Shanghai",
         }
+    }"""
+"""Pro版get_date"""
+def get_date(start,end=None):
+    return {
+        "date": {
+            "start": start,
+            "end":end,
+            "time_zone": "Asia/Shanghai",
+        }
     }
-
 
 def get_icon(url):
     return {"type": "external", "external": {"url": url}}
@@ -75,7 +90,8 @@ def get_quote(content):
             "rich_text": [
                 {
                     "type": "text",
-                    "text": {"content": content},
+                    """原版代码："text": {"content": content},"""
+                    "text": {"content": content[:MAX_LENGTH]},"""pro复制过来的"""
                 }
             ],
             "color": "default",
@@ -85,26 +101,26 @@ def get_quote(content):
 
 def get_callout(content, style, colorStyle, reviewId):
     # 根据不同的划线样式设置不同的emoji 直线type=0 背景颜色是1 波浪线是2
-    emoji = "〰️"
+    emoji = "~"
     if style == 0:
-        emoji = "💡"
+        emoji = "-"
     elif style == 1:
-        emoji = "⭐"
+        emoji = "◼︎"
     # 如果reviewId不是空说明是笔记
     if reviewId != None:
-        emoji = "✍️"
+        emoji = "☡"
     color = "default"
     # 根据划线颜色设置文字的颜色
     if colorStyle == 1:
-        color = "red"
+        color = "red"，"red_background"
     elif colorStyle == 2:
-        color = "purple"
+        color = "purple","purple_background"
     elif colorStyle == 3:
-        color = "blue"
+        color = "blue","blue_background"
     elif colorStyle == 4:
-        color = "green"
+        color = "green","green_background"
     elif colorStyle == 5:
-        color = "yellow"
+        color = "yellow","yellow_background"
     return {
         "type": "callout",
         "callout": {
@@ -112,7 +128,7 @@ def get_callout(content, style, colorStyle, reviewId):
                 {
                     "type": "text",
                     "text": {
-                        "content": content,
+                        "content": content[:MAX_LENGTH],
                     },
                 }
             ],
@@ -120,3 +136,17 @@ def get_callout(content, style, colorStyle, reviewId):
             "color": color,
         },
     }
+
+def format_time(time):
+    """将秒格式化为 xx时xx分格式"""
+    result = ""
+    hour = time // 3600
+    if hour > 0:
+        result += f"{hour}h"
+    minutes = time % 3600 // 60
+    if minutes > 0:
+        result += f"{minutes}min"
+    return result
+
+def format_date(date,format="%Y-%m-%d %H:%M:%S"):
+    return date.strftime(format)
