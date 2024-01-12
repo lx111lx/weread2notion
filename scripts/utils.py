@@ -72,7 +72,7 @@ def get_date(start,end=None):
     }
 
 def get_icon(url):
-    #return {"type": "external", "external": {"url": url}}
+    return {"type": "external", "external": {"url": url}}
 
 
 def get_select(name):
