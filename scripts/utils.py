@@ -102,7 +102,6 @@ def get_quote(content):
 def get_callout(content, style, colorStyle, reviewId):
     # 根据不同的划线样式设置不同的emoji 直线type=0 背景颜色是1 波浪线是2
     emoji = "〰️"
-    color = "brown_background"
     if style == 0:
         emoji = "➖"
     elif style == 1:
@@ -113,30 +112,31 @@ def get_callout(content, style, colorStyle, reviewId):
     color = "default"
     # 根据划线颜色设置文字的颜色
     if colorStyle == 1:
-        color == "gray_background"
+        color = "red"
     elif colorStyle == 2:
-        color == "gray_background"
+        color = "purple"
     elif colorStyle == 3:
-        color == "gray_background"
+        color = "blue"
     elif colorStyle == 4:
-        color == "gray_background"
+        color = "green"
     elif colorStyle == 5:
-        color == "gray_background"
+        color = "yellow"
     return {
-        "type": "callout",
-        "callout": {
-            "rich_text": [
-                {
-                    "type": "text",
-                    "text": {
-                        "content": content[:MAX_LENGTH],
-                    },
-                }
-            ],
-            #"icon": {"emoji": emoji},
-            "color": color,
-        },
-    }
+            "type": "callout",
+            "callout": {
+                "rich_text": [
+                    {
+                        "type": "text",
+                        "text": {
+                            "content": content[:MAX_LENGTH],
+                        },
+                    }
+                ],
+                "icon": {"emoji": emoji},
+                "color": color,
+            },
+        }   
+
 
 def format_time(time):
     """将秒格式化为 xx时xx分格式"""
