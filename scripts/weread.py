@@ -210,19 +210,10 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
     """else:
         icon = get_icon(BOOKMARK_ICON_URL)"""
     # notion api 限制100个block
-    """原版代码
+    """原版代码"""
     response = client.pages.create(parent=parent, icon=icon, properties=properties)
     id = response["id"]
-    return id"""
-    """pro复制过来的"""
-     if page_id == None:
-            response = notion_helper.create_page(
-                parent=parent, icon=icon, properties=properties
-            )
-            page_id = response["id"]
-        else:
-            notion_helper.update_page(page_id=page_id, icon=icon, properties=properties)
-        return page_id
+    return id
 
 
 def add_children(id, children):
