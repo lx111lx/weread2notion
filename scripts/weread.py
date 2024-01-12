@@ -20,7 +20,6 @@ from utils import (
     get_file,
     get_heading,
     get_icon,
-    get_select,#添加定义的author select进入当前库
     get_multi_select,
     get_number,
     get_quote,
