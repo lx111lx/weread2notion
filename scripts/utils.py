@@ -90,7 +90,7 @@ def get_quote(content):
             "rich_text": [
                 {
                     "type": "text",
-                    """原版代码："text": {"content": content},"""
+                    # 原版代码："text": {"content": content},
                     "text": {"content": content[:MAX_LENGTH]},#pro复制过来的
                 }
             ],
