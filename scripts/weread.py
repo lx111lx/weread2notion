@@ -151,13 +151,14 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
         """readingProgress = read_info.get("readingProgress", 0)这行是原版的"""
         totalReadDay = read_info.get("totalReadDay", 0)#这行是从pro复制过来的,新增阅读天数统计，搭配163行一起添加
 
+        """原版的format_time：
         format_time = ""
         hour = readingTime // 3600
         if hour > 0:
             format_time += f"{hour}h"
         minutes = readingTime % 3600 // 60
         if minutes > 0:
-            format_time += f"{minutes}min"
+            format_time += f"{minutes}min"注释掉"""
 
         properties["Status"] = {"status": {"name": "Read" if markedStatus == 4 else "Reading"}}#这行是从pro复制过来的
         """properties["Status"] = get_select("Read" if markedStatus == 4 else "Reading")这行是原版的"""
@@ -174,6 +175,7 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
                     ).strftime("%Y-%m-%d %H:%M:%S"))"""
         
         """下面这段直到（……先注释掉）都是pro复制过来的，新增（开始日期 + 上一次阅读日期 + 结束日期）计算方法，关注一下使用的变量在之前有没有赋值"""
+        finishedDate = int(datetime.timestamp(datetime.now()))
         if "finishedDate" in read_info:
             finishedDate = read_info.get("finishedDate")
         elif "readDetail" in read_info:
