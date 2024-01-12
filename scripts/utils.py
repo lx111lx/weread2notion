@@ -83,6 +83,10 @@ def get_number(number):
     return {"number": number}
 
 
+def get_page(page):
+    return {"page":page}
+
+
 def get_quote(content):
     return {
         "type": "quote",
