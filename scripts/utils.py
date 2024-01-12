@@ -94,7 +94,7 @@ def get_quote(content):
                     "text": {"content": content[:MAX_LENGTH]},#pro复制过来的
                 }
             ],
-            "color": style("default","pink_background")
+            "color": "default",
         },
     }
 
