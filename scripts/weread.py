@@ -130,7 +130,7 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
     """插入到notion"""
     time.sleep(0.3)
     parent = {"database_id": database_id, "type": "database_id"}
-    children = {"templates":get_page(templates),"type":"templates"}
+    children = get_page(templates)
     properties = {
         "Books Name":get_title(bookName),
         "Books ID": get_rich_text(bookId),
