@@ -126,11 +126,11 @@ def get_chapter_info(bookId):
     return None
 
 
-def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, categories):
+def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, categories,template):
     """插入到notion"""
     time.sleep(0.3)
     parent = {"database_id": database_id, "type": "database_id"}
-    children = get_page(templates)
+    children = get_page(template)
     properties = {
         "Books Name":get_title(bookName),
         "Books ID": get_rich_text(bookId),
