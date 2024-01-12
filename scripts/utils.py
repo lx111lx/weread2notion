@@ -91,7 +91,7 @@ def get_quote(content):
                 {
                     "type": "text",
                     """原版代码："text": {"content": content},"""
-                    "text": {"content": content[:MAX_LENGTH]},"""pro复制过来的"""
+                    "text": {"content": content[:MAX_LENGTH]},#pro复制过来的
                 }
             ],
             "color": "default",
