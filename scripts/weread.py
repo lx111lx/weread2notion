@@ -185,12 +185,13 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
                     read_info.get("readDetail").get("lastReadingDate")
                 ) + timedelta(hours=8)
                 properties["Last"] = get_date(
-                    lastReadingDate.strftime("%Y-%m-%d %H:%M:%S")
+                    #lastReadingDate.strftime("%Y-%m-%d %H:%M:%S")
+                    lastReadingDate.strftime("%Y-%m-%d")
                 )
         elif "readingBookDate" in read_info:
             finishedDate = read_info.get("readingBookDate")
         finishedDate = datetime.utcfromtimestamp(finishedDate) + timedelta(hours=8)
-        properties["Finish"] = get_date(finishedDate.strftime("%Y-%m-%d %H:%M:%S"))
+        properties["Finish"] = get_date(finishedDate.strftime("%Y-%m-%d"))#.strftime("%Y-%m-%d %H:%M:%S"))
         if "readDetail" in read_info and "beginReadingDate" in read_info.get(
             "readDetail"
         ):
@@ -198,7 +199,8 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
                 read_info.get("readDetail").get("beginReadingDate")
             ) + timedelta(hours=8)
             properties["Start"] = get_date(
-                lastReadingDate.strftime("%Y-%m-%d %H:%M:%S")
+                #lastReadingDate.strftime("%Y-%m-%d %H:%M:%S")
+                lastReadingDate.strftime("%Y-%m-%d")
             )
         """新增书籍简介"""
         if (
