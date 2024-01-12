@@ -139,14 +139,14 @@ def get_quote(content):
 
 def get_callout(content, style, colorStyle, reviewId):
     # 根据不同的划线样式设置不同的emoji 直线type=0 背景颜色是1 波浪线是2
-    color = "brown_background"
+    emoji = "👀"
     if style == 0:
-        color = "green_background"
+        emoji = "👀"
     elif style == 1:
-        color = "purple_background"
+        emoji = "👀"
     # 如果reviewId不是空说明是笔记
     if reviewId != None:
-        color = "gray_background"
+        emoji = "👀"
     color = "default"
     # 根据划线颜色设置文字的颜色
     if colorStyle == 1:
@@ -158,9 +158,9 @@ def get_callout(content, style, colorStyle, reviewId):
     elif colorStyle == 4:
         color = "green"
     elif colorStyle == 5:
-        color = "yellow"
+        color = "brown"
     return {
-            "type": "rich_text",
+            "type": "callout",
             "callout": {
                 "rich_text": [
                     {
