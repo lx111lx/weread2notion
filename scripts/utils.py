@@ -105,7 +105,7 @@ def get_callout(content, style, colorStyle, reviewId):
     color = "brown_background"
     if style == 0:
     #    emoji = "📍"
-    color = "pink_background"   
+        color = "pink_background"   
     elif style == 1:
     #    color = "green_background"
     # 如果reviewId不是空说明是笔记
