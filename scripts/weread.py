@@ -135,7 +135,7 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
         "Resource": get_url(f"https://weread.qq.com/web/reader/{calculate_book_str_id(bookId)}"),
         "Author": get_rich_text(author),
         "Sort": get_number(sort),
-        """这行Pro里没有，"Rating": get_number(rating),注释掉"""
+        #这行Pro里没有，"Rating": get_number(rating),注释掉
         "Cover": get_file(cover),
     }
     if categories != None:
