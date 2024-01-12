@@ -28,6 +28,7 @@ from utils import (
     get_table_of_contents,
     get_title,
     get_url,
+    get_page,
 )
 
 WEREAD_URL = "https://weread.qq.com/"
@@ -129,6 +130,7 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
     """插入到notion"""
     time.sleep(0.3)
     parent = {"database_id": database_id, "type": "database_id"}
+    children = {"templates":get_page(templates),"type":"templates"}
     properties = {
         "Books Name":get_title(bookName),
         "Books ID": get_rich_text(bookId),
@@ -221,7 +223,8 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
     #icon = get_icon(BOOKMARK_ICON_URL)
     # notion api 限制100个block
     """原版代码"""
-    response = client.pages.create(parent=parent, icon=icon, properties=properties)
+    #response = client.pages.create(parent=parent, icon=icon, properties=properties)
+    response = client.pages.create(parent=parent,properties=properties)
     id = response["id"]
     return id
 
