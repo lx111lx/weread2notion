@@ -6,12 +6,27 @@ import re
 import time
 from notion_client import Client
 import requests
+
 from requests.utils import cookiejar_from_dict
 from http.cookies import SimpleCookie
 from datetime import datetime
 import hashlib
 
-from utils import get_callout, get_date, get_file, get_heading, get_icon, get_multi_select, get_number, get_quote, get_rich_text, get_select, get_table_of_contents, get_title, get_url
+from utils import (
+    get_callout,
+    get_date,
+    get_file,
+    get_heading,
+    get_icon,
+    get_multi_select,
+    get_number,
+    get_quote,
+    get_rich_text,
+    get_select,
+    get_table_of_contents,
+    get_title,
+    get_url,
+)
 
 WEREAD_URL = "https://weread.qq.com/"
 WEREAD_NOTEBOOKS_URL = "https://i.weread.qq.com/user/notebooks"
@@ -21,7 +36,7 @@ WEREAD_READ_INFO_URL = "https://i.weread.qq.com/book/readinfo"
 WEREAD_REVIEW_LIST_URL = "https://i.weread.qq.com/review/list"
 WEREAD_BOOK_INFO = "https://i.weread.qq.com/book/info"
 
-
+"""这段Pro里没有"""
 def parse_cookie_string(cookie_string):
     cookie = SimpleCookie()
     cookie.load(cookie_string)
@@ -114,11 +129,11 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
     properties = {
         "Books Name":get_title(bookName),
         "Books ID": get_rich_text(bookId),
-        "ISBN NO.": get_rich_text(isbn),
+        "ISBN": get_rich_text(isbn),
         "Resource": get_url(f"https://weread.qq.com/web/reader/{calculate_book_str_id(bookId)}"),
         "Author": get_rich_text(author),
-        "Sort NO.": get_number(sort),
-        "Rating": get_number(rating),
+        "Sort": get_number(sort),
+        """这行Pro里没有，"Rating": get_number(rating),注释掉"""
         "Cover": get_file(cover),
     }
     if categories != None:
@@ -126,8 +141,14 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
     read_info = get_read_info(bookId=bookId)
     if read_info != None:
         markedStatus = read_info.get("markedStatus", 0)
-        readingTime = read_info.get("readingTime", 0)
-        readingProgress = read_info.get("readingProgress", 0)
+        readingTime = format_time(read_info.get("readingTime", 0))#这行是从pro复制过来的
+        """readingTime = read_info.get("readingTime", 0)这行是原版的,搭配163行一起修改"""
+        readingProgress = (
+            100 if (markedStatus == 4) else read_info.get("readingProgress", 0)
+        )#这行是从pro复制过来的,修改了readingProgress的计算方式
+        """readingProgress = read_info.get("readingProgress", 0)这行是原版的"""
+        totalReadDay = read_info.get("totalReadDay", 0)#这行是从pro复制过来的,新增阅读天数统计，搭配163行一起添加
+
         format_time = ""
         hour = readingTime // 3600
         if hour > 0:
@@ -135,21 +156,73 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
         minutes = readingTime % 3600 // 60
         if minutes > 0:
             format_time += f"{minutes}min"
-        properties["Status"] = {"status": {"name": "Read" if markedStatus == 4 else "Reading"}}
-        """properties["Status"] = get_select("Read" if markedStatus == 4 else "Reading")"""
-        properties["ReadTime"] = get_rich_text(format_time)
-        properties["Progress"] = get_number(readingProgress)
-        if "finishedDate" in read_info:
-            properties["Complete"] = get_date(datetime.utcfromtimestamp(
+
+        properties["Status"] = {"status": {"name": "Read" if markedStatus == 4 else "Reading"}}#这行是从pro复制过来的
+        """properties["Status"] = get_select("Read" if markedStatus == 4 else "Reading")这行是原版的"""
+        properties["Time Statistic"] = get_rich_text(readingTime)#这行是从pro复制过来的
+        """properties["Time Statistic"] = get_rich_text(format_time)这行是原版的,搭配145行一起修改"""
+        properties["Progress"] = {"number": readingProgress / 100}#这行是从pro复制过来的
+        properties["DaysCounter"] = {"number": totalReadDay}#这行是从pro复制过来的,新增阅读天数统计，搭配150行一起添加
+        """properties["Progress"] = get_number(readingProgress)这行是原版的,搭配()一起修改"""
+        
+        """ 原版的阅读结束日期计算方法：
+            if "finishedDate" in read_info:
+            properties["Finish"] = get_date(datetime.utcfromtimestamp(
                         read_info.get("finishedDate")
-                    ).strftime("%Y-%m-%d %H:%M:%S"))
+                    ).strftime("%Y-%m-%d %H:%M:%S"))"""
+        
+        """下面这段直到（……先注释掉）都是pro复制过来的，新增（开始日期 + 上一次阅读日期 + 结束日期）计算方法，关注一下使用的变量在之前有没有赋值"""
+        if "finishedDate" in read_info:
+            finishedDate = read_info.get("finishedDate")
+        elif "readDetail" in read_info:
+            if "lastReadingDate" in read_info.get("readDetail"):
+                finishedDate = read_info.get("readDetail").get("lastReadingDate")
+                lastReadingDate = datetime.utcfromtimestamp(
+                    read_info.get("readDetail").get("lastReadingDate")
+                ) + timedelta(hours=8)
+                properties["Last"] = get_date(
+                    lastReadingDate.strftime("%Y-%m-%d %H:%M:%S")
+                )
+        elif "readingBookDate" in read_info:
+            finishedDate = read_info.get("readingBookDate")
+        finishedDate = datetime.utcfromtimestamp(finishedDate) + timedelta(hours=8)
+        properties["Finish"] = get_date(finishedDate.strftime("%Y-%m-%d %H:%M:%S"))
+        if "readDetail" in read_info and "beginReadingDate" in read_info.get(
+            "readDetail"
+        ):
+            lastReadingDate = datetime.utcfromtimestamp(
+                read_info.get("readDetail").get("beginReadingDate")
+            ) + timedelta(hours=8)
+            properties["Start"] = get_date(
+                lastReadingDate.strftime("%Y-%m-%d %H:%M:%S")
+            )
+        """新增书籍简介"""
+        if (
+            read_info.get("bookInfo") != None
+            and read_info.get("bookInfo").get("intro") != None
+        ):
+            properties["Synopsis"] = get_rich_text(read_info.get("bookInfo").get("intro"))
+        """notion_helper.get_date_relation(properties,finishedDate)#最后这个像是把阅读结束日期的值传给notion_helper库，不是很清楚，先注释掉"""
 
     if cover.startswith("http"):
         icon = get_icon(cover)
+    """原版没有下面这个else，加一下看是什么"""
+    else:
+        icon = get_icon(BOOKMARK_ICON_URL)
     # notion api 限制100个block
+    """原版代码
     response = client.pages.create(parent=parent, icon=icon, properties=properties)
     id = response["id"]
-    return id
+    return id"""
+    """pro复制过来的"""
+     if page_id == None:
+            response = notion_helper.create_page(
+                parent=parent, icon=icon, properties=properties
+            )
+            page_id = response["id"]
+        else:
+            notion_helper.update_page(page_id=page_id, icon=icon, properties=properties)
+        return page_id
 
 
 def add_children(id, children):
@@ -185,10 +258,10 @@ def get_notebooklist():
 
 def get_sort():
     """获取database中的最新时间"""
-    filter = {"property": "Sort NO.", "number": {"is_not_empty": True}}
+    filter = {"property": "Sort", "number": {"is_not_empty": True}}
     sorts = [
         {
-            "property": "Sort NO.",
+            "property": "Sort",
             "direction": "descending",
         }
     ]
@@ -196,7 +269,7 @@ def get_sort():
         database_id=database_id, filter=filter, sorts=sorts, page_size=1
     )
     if len(response.get("results")) == 1:
-        return response.get("results")[0].get("properties").get("Sort NO.").get("number")
+        return response.get("results")[0].get("properties").get("Sort").get("number")
     return 0
 
 
