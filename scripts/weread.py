@@ -211,9 +211,9 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
             properties["Synopsis"] = get_rich_text(read_info.get("bookInfo").get("intro"))
         """notion_helper.get_date_relation(properties,finishedDate)#最后这个像是把阅读结束日期的值传给notion_helper库，不是很清楚，先注释掉"""
 
-    if cover.startswith("http"):
-        icon = get_icon(cover)
-    """原版没有下面这个else，加一下看是什么"""
+    #if cover.startswith("http"):
+    #    icon = get_icon(cover)
+    # 原版没有下面这个else，加一下看是什么
     """else:
         icon = get_icon(BOOKMARK_ICON_URL)"""
     # notion api 限制100个block
