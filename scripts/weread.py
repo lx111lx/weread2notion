@@ -468,7 +468,7 @@ if __name__ == "__main__":
             check(bookId)
             isbn, rating = get_bookinfo(bookId)
             id = insert_to_notion(
-                title, bookId, cover, sort, author, isbn, rating, categories,template
+                title, bookId, cover, sort, author, isbn, rating, categories
             )
             chapter = get_chapter_info(bookId)
             bookmark_list = get_bookmark_list(bookId)
