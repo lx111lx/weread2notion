@@ -207,8 +207,8 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
     if cover.startswith("http"):
         icon = get_icon(cover)
     """原版没有下面这个else，加一下看是什么"""
-    else:
-        icon = get_icon(BOOKMARK_ICON_URL)
+    """else:
+        icon = get_icon(BOOKMARK_ICON_URL)"""
     # notion api 限制100个block
     """原版代码
     response = client.pages.create(parent=parent, icon=icon, properties=properties)
