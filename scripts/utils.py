@@ -115,15 +115,15 @@ def get_callout(content, style, colorStyle, reviewId):
     color = "default"
     # 根据划线颜色设置文字的颜色
     if colorStyle == 1:
-        color = "blue"
+        emoji = "👀"
     elif colorStyle == 2:
-        color = "blue"
+        emoji = "👀"
     elif colorStyle == 3:
-        color = "blue"
+        emoji = "👀"
     elif colorStyle == 4:
-        color = "blue"
+        emoji = "👀"
     elif colorStyle == 5:
-        color = "blue"
+        emoji = "👀"
     return {
         "type": "callout",
         "callout": {
