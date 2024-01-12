@@ -112,15 +112,15 @@ def get_callout(content, style, colorStyle, reviewId):
     color = "default"
     # 根据划线颜色设置文字的颜色
     if colorStyle == 1:
-        color = "red","red_background"
+        color = ["red","red_background"]
     elif colorStyle == 2:
-        color = "purple","purple_background"
+        color = ["purple","purple_background"]
     elif colorStyle == 3:
-        color = "blue","blue_background"
+        color = []"blue","blue_background"]
     elif colorStyle == 4:
-        color = "green","green_background"
+        color = ["green","green_background"]
     elif colorStyle == 5:
-        color = "yellow","yellow_background"
+        color = ["yellow","yellow_background"]
     return {
         "type": "callout",
         "callout": {
