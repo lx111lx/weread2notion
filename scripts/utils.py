@@ -123,7 +123,7 @@ def get_callout(content, style, colorStyle, reviewId):
     elif colorStyle == 4:
         color = "default"
     elif colorStyle == 5:
-        color = ""default"
+        color = "default"
     return {
         "type": "callout",
         "callout": {
