@@ -116,7 +116,7 @@ def get_callout(content, style, colorStyle, reviewId):
     elif colorStyle == 2:
         color = ["purple","purple_background"]
     elif colorStyle == 3:
-        color = []"blue","blue_background"]
+        color = ["blue","blue_background"]
     elif colorStyle == 4:
         color = ["green","green_background"]
     elif colorStyle == 5:
