@@ -135,7 +135,7 @@ def get_callout(content, style, colorStyle, reviewId):
                     },
                 }
             ],
-            "icon": {"emoji": None},
+            #"icon": {"emoji": emoji},
             "color": color,
         },
     }
