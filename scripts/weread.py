@@ -37,7 +37,7 @@ WEREAD_CHAPTER_INFO = "https://i.weread.qq.com/book/chapterInfos"
 WEREAD_READ_INFO_URL = "https://i.weread.qq.com/book/readinfo"
 WEREAD_REVIEW_LIST_URL = "https://i.weread.qq.com/review/list"
 WEREAD_BOOK_INFO = "https://i.weread.qq.com/book/info"
-BOOKMARK_ICON_URL = None
+#BOOKMARK_ICON_URL = "https://www.notion.so/icons/bookmark_gray.svg"
 
 """这段Pro里没有"""
 def parse_cookie_string(cookie_string):
@@ -218,7 +218,7 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
     原版没有下面这个else，加一下看是什么
     else:
         icon = get_icon(BOOKMARK_ICON_URL)"""
-    icon = get_icon(BOOKMARK_ICON_URL)
+    #icon = get_icon(BOOKMARK_ICON_URL)
     # notion api 限制100个block
     """原版代码"""
     response = client.pages.create(parent=parent, icon=icon, properties=properties)
