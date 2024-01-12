@@ -141,7 +141,7 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
         "Cover": get_file(cover),
     }
     if categories != None:
-        properties["Tags"] =get_multi_select(categories)
+        properties["Categories"] =get_multi_select(categories)
     read_info = get_read_info(bookId=bookId)
     if read_info != None:
         markedStatus = read_info.get("markedStatus", 0)
