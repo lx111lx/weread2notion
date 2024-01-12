@@ -115,15 +115,15 @@ def get_callout(content, style, colorStyle, reviewId):
     color = "default"
     # 根据划线颜色设置文字的颜色
     if colorStyle == 1:
-        color = "default"
+        color = "blue"
     elif colorStyle == 2:
-        color = "default"
+        color = "blue"
     elif colorStyle == 3:
-        color = "default"
+        color = "blue"
     elif colorStyle == 4:
-        color = "default"
+        color = "blue"
     elif colorStyle == 5:
-        color = "default"
+        color = "blue"
     return {
         "type": "callout",
         "callout": {
@@ -135,7 +135,7 @@ def get_callout(content, style, colorStyle, reviewId):
                     },
                 }
             ],
-            "icon": {"emoji": default},
+            "icon": {"emoji": None},
             "color": color,
         },
     }
@@ -145,7 +145,7 @@ def format_time(time):
     result = ""
     hour = time // 3600
     if hour > 0:
-        result += f"{hour}h,"
+        result += f"{hour}h"
     minutes = time % 3600 // 60
     if minutes > 0:
         result += f"{minutes}min"
