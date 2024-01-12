@@ -71,7 +71,7 @@ def get_date(start,end=None):
         }
     }
 
-#def get_icon(url):
+def get_icon(url):
     #return {"type": "external", "external": {"url": url}}
 
 
