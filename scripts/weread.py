@@ -276,7 +276,7 @@ def get_children(chapter, summary, bookmark_list):
     grandchild = {}
     if chapter != None:
         # 添加目录
-        children.append(get_table_of_contents())
+        children.append(get_table_of_contents()).left()
         d = {}
         for data in bookmark_list:
             chapterUid = data.get("chapterUid", 1)
