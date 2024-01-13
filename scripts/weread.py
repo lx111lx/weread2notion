@@ -164,15 +164,15 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
 
         properties["Status"] = {"status": {"name": "Read" if markedStatus == 4 else "Reading"}}#这行是从pro复制过来的
         """properties["Status"] = get_select("Read" if markedStatus == 4 else "Reading")这行是原版的"""
-        properties["Time Statistic"] = get_rich_text(readingTime)#这行是从pro复制过来的
-        """properties["Time Statistic"] = get_rich_text(format_time)这行是原版的,搭配145行一起修改"""
+        properties["ReadingTime"] = get_rich_text(readingTime)#这行是从pro复制过来的
+        """properties["Reading Time"] = get_rich_text(format_time)这行是原版的,搭配145行一起修改"""
         properties["Progress"] = {"number": readingProgress / 100}#这行是从pro复制过来的
-        properties["DaysCounter"] = {"number": totalReadDay}#这行是从pro复制过来的,新增阅读天数统计，搭配150行一起添加
+        properties["ReadingDays"] = {"number": totalReadDay}#这行是从pro复制过来的,新增阅读天数统计，搭配150行一起添加
         """properties["Progress"] = get_number(readingProgress)这行是原版的,搭配()一起修改"""
         
         """ 原版的阅读结束日期计算方法：
             if "finishedDate" in read_info:
-            properties["Finish"] = get_date(datetime.utcfromtimestamp(
+            properties["Finished Time"] = get_date(datetime.utcfromtimestamp(
                         read_info.get("finishedDate")
                     ).strftime("%Y-%m-%d %H:%M:%S"))"""
         
@@ -186,22 +186,22 @@ def insert_to_notion(bookName, bookId, cover, sort, author, isbn, rating, catego
                 lastReadingDate = datetime.utcfromtimestamp(
                     read_info.get("readDetail").get("lastReadingDate")
                 ) + timedelta(hours=8)
-                properties["Last"] = get_date(
+                properties["Last Time"] = get_date(
                     lastReadingDate.strftime("%Y-%m-%d %H:%M:%S")
                     #lastReadingDate.strftime("%Y-%m-%d")
                 )
         elif "readingBookDate" in read_info:
             finishedDate = read_info.get("readingBookDate")
         finishedDate = datetime.utcfromtimestamp(finishedDate) + timedelta(hours=8)
-        properties["Finish"] = get_date(finishedDate.strftime("%Y-%m-%d %H:%M:%S"))
-        #properties["Finish"] = get_date(finishedDate.strftime("%Y-%m-%d"))
+        properties["Finished Time"] = get_date(finishedDate.strftime("%Y-%m-%d %H:%M:%S"))
+        #properties["Finished Time"] = get_date(finishedDate.strftime("%Y-%m-%d"))
         if "readDetail" in read_info and "beginReadingDate" in read_info.get(
             "readDetail"
         ):
             lastReadingDate = datetime.utcfromtimestamp(
                 read_info.get("readDetail").get("beginReadingDate")
             ) + timedelta(hours=8)
-            properties["Start"] = get_date(
+            properties["Started Time"] = get_date(
                 lastReadingDate.strftime("%Y-%m-%d %H:%M:%S")
                 #lastReadingDate.strftime("%Y-%m-%d")
             )
