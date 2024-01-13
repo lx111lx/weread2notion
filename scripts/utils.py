@@ -143,7 +143,7 @@ def get_callout(content, style, colorStyle, reviewId):
     if style == 0:
         emoji = "➰"
     elif style == 1:
-        emoji = "◽️"
+        emoji = "◻️"
     # 如果reviewId不是空说明是笔记
     if reviewId != None:
         emoji = "➿"
