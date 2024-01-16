@@ -142,7 +142,7 @@ def format_time(time):
     result = ""
     hour = time // 3600
     if hour > 0:
-        result += f"{hour}h:"
+        result += f"{hour}h"
     minutes = time % 3600 // 60
     if minutes > 0:
         result += f"{minutes}min"
