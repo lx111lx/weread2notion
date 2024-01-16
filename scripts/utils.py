@@ -147,7 +147,7 @@ def get_callout(content, style, colorStyle, reviewId):
     # 如果reviewId不是空说明是笔记
     if reviewId != None:
         emoji = "➿"
-    color = "brown_background"
+    color = "orange_background"
     # 根据划线颜色设置文字的颜色
     if colorStyle == 1:
         color = "red_background"
@@ -181,10 +181,10 @@ def format_time(time):
     result = ""
     hour = time // 3600
     if hour > 0:
-        result += f"{hour}时"
+        result += f"{hour}H:"
     minutes = time % 3600 // 60
     if minutes > 0:
-        result += f"{minutes}分"
+        result += f"{minutes}Min"
     return result
 
 def format_date(date,format="%Y-%m-%d %H:%M:%S"):
