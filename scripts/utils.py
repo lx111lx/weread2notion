@@ -108,14 +108,14 @@ def get_callout(content, style, colorStyle, reviewId):
     # 如果reviewId不是空说明是笔记
     if reviewId != None:
         emoji = "➿"
-    color = "orange_background"
+    color = "brown_background"
     # 根据划线颜色设置文字的颜色
     if colorStyle == 1:
         color = "red_background"
     elif colorStyle == 2:
         color = "purple_background"
     elif colorStyle == 3:
-        color = "blue"
+        color = "blue_background"
     elif colorStyle == 4:
         color = "green_background"
     elif colorStyle == 5:
