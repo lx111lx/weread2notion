@@ -181,10 +181,10 @@ def format_time(time):
     result = ""
     hour = time // 3600
     if hour > 0:
-        result += f"{hour}h"
+        result += f"{hour}时"
     minutes = time % 3600 // 60
     if minutes > 0:
-        result += f"{minutes}min"
+        result += f"{minutes}分"
     return result
 
 def format_date(date,format="%Y-%m-%d %H:%M:%S"):
